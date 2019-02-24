@@ -25,6 +25,7 @@ public class QuadManager : MonoBehaviour
 
     private void PopulateScene()
     {
+        
         foreach (GameObject _current in poolPrefabs)
         {
             for (int i = 0; i < quadInScene / 3; i++)
@@ -41,6 +42,23 @@ public class QuadManager : MonoBehaviour
                 }
             }
         }
+
+        /*
+        // DEBUG only red
+        GameObject _current = poolPrefabs[0];
+        for (int i = 0; i < quadInScene / 3; i++)
+        {
+            BaseQuad _el = GetObjectFormPool(_current.GetComponent<BaseQuad>().GetQuadType());
+
+            if (!placeEl(_el))
+            {
+                i--;
+            }
+            else
+            {
+                activeQuads.Add(_el);
+            }
+        }*/
     }
 
     private bool placeEl(BaseQuad _el)
@@ -65,17 +83,24 @@ public class QuadManager : MonoBehaviour
     } 
 
     #region API
-    public void Init()
+    public void Init(MouseManager _mouseMng)
     {
         GeneratePool();
 
         PopulateScene();
+
+        _mouseMng.EndDrag += HandleEndDrag;
     }
     #endregion
 
     #region Pool
     private void GeneratePool()
     {
+        var BottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
+        var TopRight = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight));
+
+        Rect _cameraBound = new Rect(BottomLeft.x, BottomLeft.y, TopRight.x - BottomLeft.x, TopRight.y - BottomLeft.y);
+
         foreach (GameObject _current in poolPrefabs)
         {
             for (int i = 0; i < quantityPerPrefab; i++)
@@ -84,7 +109,7 @@ public class QuadManager : MonoBehaviour
                 _new.SetActive(false);
                 _new.transform.position = new Vector3(1000, 1000, 1000);
                 BaseQuad _newQuad = _new.GetComponent<BaseQuad>();
-                _newQuad.Init();
+                _newQuad.Init(_cameraBound);
                 pool.Add(_newQuad);
 
                 _newQuad.OutOfBounds += HandleOutOfBounds;
@@ -133,6 +158,60 @@ public class QuadManager : MonoBehaviour
     {
         ReturnToPool(_base);
         StartCoroutine(CPlaceElement());
+    }
+
+    [SerializeField]
+    List<BaseQuad> selected = new List<BaseQuad>();
+    private void HandleEndDrag(Rect _selectionArea)
+    {
+        /*
+        // Stampa quadrati blu nell'area di selezione
+        // DEBUG
+        Instantiate(poolPrefabs[1], new Vector3(_selectionArea.xMin, _selectionArea.yMin, 0), Quaternion.identity);
+        Instantiate(poolPrefabs[1], new Vector3(_selectionArea.xMax, _selectionArea.yMin, 0), Quaternion.identity);
+        Instantiate(poolPrefabs[1], new Vector3(_selectionArea.xMin, _selectionArea.yMax, 0), Quaternion.identity);
+        Instantiate(poolPrefabs[1], new Vector3(_selectionArea.xMax, _selectionArea.yMax, 0), Quaternion.identity);
+        */
+        
+        bool isValid = true;
+        QuadType _target = QuadType.Red;
+        List<BaseQuad> selected = new List<BaseQuad>();
+        int score = 0;
+        
+        foreach (BaseQuad _current in activeQuads)
+        {
+            if (isValid && _selectionArea.Contains(_current.transform.position, true))
+            {
+                if (selected.Count == 0)
+                {
+                    _target = _current.GetQuadType();
+                    selected.Add(_current);
+                }
+                else if (_current.GetQuadType() == _target)
+                {
+                    selected.Add(_current);
+                }
+                else
+                {
+                    isValid = false;
+                }
+            }
+        }
+
+        if (selected.Count == 1)
+            isValid = false;
+
+        if (isValid)
+        {
+            foreach (BaseQuad _current in selected)
+            {
+                score += _current.GetScore();
+                ReturnToPool(_current);
+                StartCoroutine(CPlaceElement());
+            }
+
+            Debug.Log(score);
+        }
     }
     #endregion
 

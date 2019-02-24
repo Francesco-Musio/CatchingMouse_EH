@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
 
         quadMng = GetComponent<QuadManager>();
         if (quadMng != null)
-            quadMng.Init();
+            quadMng.Init(mouseMng);
     }
     #endregion
 

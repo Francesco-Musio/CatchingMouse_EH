@@ -18,31 +18,33 @@ public class MouseManager : MonoBehaviour
     private Vector2 endPoint;
 
     Rect _selection = Rect.zero;
+    Rect _worldSelection = Rect.zero;
     private void RectUpdate(Vector2 _start, Vector2 _end)
     {
         _selection = Rect.zero;
 
-        /*
+        _selection = new Rect(_start.x, Screen.height - _start.y, _end.x - _start.x, _start.y - _end.y);
+        
+        _start = Camera.main.ScreenToWorldPoint(_start);
+        _end = Camera.main.ScreenToWorldPoint(_end);
+
         if (_start.x < _end.x && _start.y > _end.y)
         {
-            _selection = new Rect(_start.x, _start.y, _end.x - _start.x, _start.y - _end.y);
+            _worldSelection = new Rect(_start.x, _start.y, _end.x - _start.x, -(_start.y - _end.y));
         }
         else if (_end.x < _start.x && _end.y > _start.y)
         {
-            _selection = new Rect(_end.x, _end.y, _start.x - _end.x, _end.y - _start.y);
+            _worldSelection = new Rect(_end.x, _end.y, _start.x - _end.x, -(_end.y - _start.y));
         }
         else if (_start.x < _end.x && _start.y < _end.y)
         {
-            _selection = new Rect(_start.x, _end.y, _end.x - _start.x, _end.y - _start.y);
+            _worldSelection = new Rect(_start.x, _end.y, _end.x - _start.x, -(_end.y - _start.y));
         }
         else if (_end.x < _start.x && _end.y < _start.y)
         {
-            _selection = new Rect(_end.x, _start.y, _start.x - _end.x, _start.y - _end.y);
-        }*/
+            _worldSelection = new Rect(_end.x, _start.y, _start.x - _end.x, -(_start.y - _end.y));
+        }
 
-        _selection = new Rect(_start.x, Screen.height - _start.y, _end.x - _start.x, _start.y - _end.y);
-        
-        //EndDrag?.Invoke(_selection);
     }
 
     private void OnGUI()
@@ -79,6 +81,8 @@ public class MouseManager : MonoBehaviour
             {
                 isDragging = false;
                 RectUpdate(startingPoint, endPoint);
+                
+                EndDrag?.Invoke(_worldSelection);
             }
 
             if (isDragging)

@@ -13,12 +13,15 @@ public abstract class BaseQuad : MonoBehaviour
     protected QuadType type;
     [SerializeField]
     protected float movementSpd;
+    [SerializeField]
+    protected int score = 100;
 
     protected Vector2 direction;
     protected Collider2D coll;
+    protected Rect cameraRect;
 
     #region Abstract
-    public abstract void Init();
+    public abstract void Init(Rect _cameraRect);
     public abstract void Move();
     #endregion
 
@@ -31,6 +34,11 @@ public abstract class BaseQuad : MonoBehaviour
     public Collider2D GetCollider()
     {
         return coll;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
     #endregion
 }
