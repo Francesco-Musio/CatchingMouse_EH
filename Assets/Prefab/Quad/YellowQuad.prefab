@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   movementSpd: 0.2
+  score: 1
 --- !u!61 &7807962472473549510
 BoxCollider2D:
   m_ObjectHideFlags: 0

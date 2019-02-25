@@ -22,6 +22,10 @@ public class QuadManager : MonoBehaviour
     private int quadInScene;
     [SerializeField]
     private List<BaseQuad> activeQuads = new List<BaseQuad>();
+    [SerializeField]
+    private Transform quadContainer;
+
+    private ScoreManager scoreMng;
 
     private void PopulateScene()
     {
@@ -83,13 +87,15 @@ public class QuadManager : MonoBehaviour
     } 
 
     #region API
-    public void Init(MouseManager _mouseMng)
+    public void Init(LevelManager _lvlMng)
     {
+        scoreMng = _lvlMng.GetScoreMng();
+
         GeneratePool();
 
         PopulateScene();
 
-        _mouseMng.EndDrag += HandleEndDrag;
+        _lvlMng.GetMouseMng().EndDrag += HandleEndDrag;
     }
     #endregion
 
@@ -105,7 +111,7 @@ public class QuadManager : MonoBehaviour
         {
             for (int i = 0; i < quantityPerPrefab; i++)
             {
-                GameObject _new = Instantiate(_current);
+                GameObject _new = Instantiate(_current, quadContainer, true);
                 _new.SetActive(false);
                 _new.transform.position = new Vector3(1000, 1000, 1000);
                 BaseQuad _newQuad = _new.GetComponent<BaseQuad>();
@@ -159,9 +165,7 @@ public class QuadManager : MonoBehaviour
         ReturnToPool(_base);
         StartCoroutine(CPlaceElement());
     }
-
-    [SerializeField]
-    List<BaseQuad> selected = new List<BaseQuad>();
+    
     private void HandleEndDrag(Rect _selectionArea)
     {
         /*
@@ -210,7 +214,7 @@ public class QuadManager : MonoBehaviour
                 StartCoroutine(CPlaceElement());
             }
 
-            Debug.Log(score);
+            scoreMng.Score(score, selected.Count);
         }
     }
     #endregion

@@ -9,16 +9,19 @@ public class MouseManager : MonoBehaviour
     public EndDragEvent EndDrag;
     #endregion
 
+    [Header("Hover Options")]
     [SerializeField]
     private Texture texture;
 
-    [SerializeField]
+    private bool isGameActive;
+    
     private bool isDragging;
     private Vector2 startingPoint;
     private Vector2 endPoint;
 
     Rect _selection = Rect.zero;
     Rect _worldSelection = Rect.zero;
+
     private void RectUpdate(Vector2 _start, Vector2 _end)
     {
         _selection = Rect.zero;
@@ -56,12 +59,16 @@ public class MouseManager : MonoBehaviour
     }
 
     #region API
-    public void Init()
+    public void Init(LevelManager _lvlMng)
     {
         isDragging = false;
         startingPoint = Vector3.zero;
 
+        isGameActive = false;
         StartCoroutine(MouseCheck());
+
+        _lvlMng.OnGameStart += HandleOnGameStart;
+        _lvlMng.OnGameEnd += HandleOnGameEnd;
     }
     #endregion
 
@@ -71,29 +78,48 @@ public class MouseManager : MonoBehaviour
         // insert start conditions
         while (true)
         {
-            if (!isDragging && Input.GetMouseButtonDown(0))
+            if (isGameActive)
             {
-                isDragging = true;
-                //startingPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                startingPoint = Input.mousePosition;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                isDragging = false;
-                RectUpdate(startingPoint, endPoint);
-                
-                EndDrag?.Invoke(_worldSelection);
-            }
+                if (!isDragging && Input.GetMouseButtonDown(0))
+                {
+                    isDragging = true;
+                    //startingPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    startingPoint = Input.mousePosition;
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    isDragging = false;
+                    RectUpdate(startingPoint, endPoint);
 
-            if (isDragging)
-            {
-                //endPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                endPoint = Input.mousePosition;
-                RectUpdate(startingPoint, endPoint);
-            }
+                    EndDrag?.Invoke(_worldSelection);
+                }
 
+                if (isDragging)
+                {
+                    //endPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    endPoint = Input.mousePosition;
+                    RectUpdate(startingPoint, endPoint);
+                }
+            }
+            
             yield return null;
         }
+    }
+    #endregion
+
+    #region Handlers
+    private void HandleOnGameStart()
+    {
+        _selection = Rect.zero;
+        _worldSelection = Rect.zero;
+        isGameActive = true;
+    }
+
+    private void HandleOnGameEnd()
+    {
+        _selection = Rect.zero;
+        _worldSelection = Rect.zero;
+        isGameActive = false;
     }
     #endregion
 

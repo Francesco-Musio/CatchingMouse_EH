@@ -14,7 +14,7 @@ public abstract class BaseQuad : MonoBehaviour
     [SerializeField]
     protected float movementSpd;
     [SerializeField]
-    protected int score = 100;
+    protected int score;
 
     protected Vector2 direction;
     protected Collider2D coll;
