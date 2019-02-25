@@ -6,15 +6,23 @@ public class UIManager : MonoBehaviour
 {
     [Header("Canvas References")]
     [SerializeField]
+    // Reference to the gameCanvas
     private GameCanvas gameCanvas;
     [SerializeField]
+    // Reference to the menuCanvas
     private MenuCanvas menuCanvas;
     [SerializeField]
+    // Reference to the finishCanvas
     private FinishCanvas finishCanvas;
     [SerializeField]
+    // Reference to the leaderboardCanvas
     private LeaderboardCanvas leaderboardCanvas;
 
     #region API
+    /// <summary>
+    /// Initialize every canvas
+    /// </summary>
+    /// <param name="_lvlMng"></param>
     public void Init(LevelManager _lvlMng)
     {
         if (gameCanvas != null)
@@ -37,6 +45,9 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Handlers
+    /// <summary>
+    /// Enable the menu canvas and check the leaderboard presence
+    /// </summary>
     private void HandleOnMenuEnter()
     {
         menuCanvas.CheckLeaderboard();
@@ -47,6 +58,9 @@ public class UIManager : MonoBehaviour
         menuCanvas.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// enable the game canvas
+    /// </summary>
     private void HandleOnGameStart()
     {
         menuCanvas.gameObject.SetActive(false);
@@ -55,6 +69,9 @@ public class UIManager : MonoBehaviour
         gameCanvas.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// enable the finish game canvas
+    /// </summary>
     private void HandleOngameEnd()
     {
         gameCanvas.gameObject.SetActive(false);
@@ -63,6 +80,9 @@ public class UIManager : MonoBehaviour
         finishCanvas.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// enable the leaderboard canvas and reload leaderboard
+    /// </summary>
     private void HandleOnLeaderboard()
     {
         leaderboardCanvas.LoadLeaderboard();

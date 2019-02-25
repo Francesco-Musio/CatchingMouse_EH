@@ -2,6 +2,12 @@
 using UnityEngine;
 using System.Collections;
 
+/*
+ * Author: Francesco Musio
+ * 
+ * This class initialize all managers and signals a new state of the game.
+ */
+
 [RequireComponent(typeof(MouseManager))]
 [RequireComponent(typeof(QuadManager))]
 [RequireComponent(typeof(ScoreManager))]
@@ -9,20 +15,53 @@ using System.Collections;
 public class LevelManager : MonoBehaviour
 {
     #region Delegates
+    /// <summary>
+    /// Event called when the state switch to menu
+    /// </summary>
     public Action OnMenuEnter;
+    /// <summary>
+    /// Event called when the state switch to the begin of the game
+    /// </summary>
     public Action OnGameStart;
+    /// <summary>
+    /// Event called when the state switch to the end of the game
+    /// </summary>
     public Action OnGameEnd;
+    /// <summary>
+    /// Event called when the state switch to the leaderboard screen
+    /// </summary>
     public Action OnLeaderboard;
     #endregion
 
+    /// <summary>
+    /// reference to the MouseManager
+    /// </summary>
     private MouseManager mouseMng;
+    /// <summary>
+    /// reference to the QuadManager
+    /// </summary>
     private QuadManager quadMng;
+    /// <summary>
+    /// reference to the ScoreManager
+    /// </summary>
     private ScoreManager scoreMng;
+    /// <summary>
+    /// reference to the UIManager
+    /// </summary>
     private UIManager uiMng;
+    /// <summary>
+    /// reference to the TimerManager
+    /// </summary>
     private TimerManager timerMng;
+    /// <summary>
+    /// reference to the LeaderboardManager
+    /// </summary>
     private LeaderboardManager leaderboardMng;
 
     #region Start
+    /// <summary>
+    /// initialize all the managers
+    /// </summary>
     public void Init()
     {
         mouseMng = GetComponent<MouseManager>();
