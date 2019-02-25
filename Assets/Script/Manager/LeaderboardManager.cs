@@ -22,10 +22,10 @@ public class LeaderboardManager : MonoBehaviour
 
     [Header("Leaderboard options")]
     [SerializeField]
-    // max number of scores saved in the leaderboard
+    [Tooltip("Max number of scores saved in the leaderboard")]
     private int maxEntries;
     [SerializeField]
-    // indicate if there is a saved leaderboard
+    [Tooltip("Indicate if there is a saved leaderboard")]
     private bool leaderboardPresence;
 
     /// <summary>

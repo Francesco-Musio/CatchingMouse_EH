@@ -12,6 +12,9 @@ using System.Collections;
 [RequireComponent(typeof(QuadManager))]
 [RequireComponent(typeof(ScoreManager))]
 [RequireComponent(typeof(UIManager))]
+[RequireComponent(typeof(TimerManager))]
+[RequireComponent(typeof(LeaderboardManager))]
+[RequireComponent(typeof(BoundManager))]
 public class LevelManager : MonoBehaviour
 {
     #region Delegates
@@ -57,6 +60,10 @@ public class LevelManager : MonoBehaviour
     /// reference to the LeaderboardManager
     /// </summary>
     private LeaderboardManager leaderboardMng;
+    /// <summary>
+    /// reference to the Bound Manager
+    /// </summary>
+    private BoundManager boundMng;
 
     #region Start
     /// <summary>
@@ -64,6 +71,10 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void Init()
     {
+        boundMng = GetComponent<BoundManager>();
+        if (boundMng != null)
+            boundMng.Init();
+
         mouseMng = GetComponent<MouseManager>();
         if (mouseMng != null)
             mouseMng.Init(this);
@@ -109,6 +120,11 @@ public class LevelManager : MonoBehaviour
     public LeaderboardManager GetLeaderboardMng()
     {
         return leaderboardMng;
+    }
+
+    public BoundManager GetBoundMng()
+    {
+        return boundMng;
     }
     #endregion
 }

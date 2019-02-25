@@ -13,10 +13,10 @@ public class QuadManager : MonoBehaviour
 {
     [Header("Pool Options")]
     [SerializeField]
-    // number of object that has to be instantiated for each prefab
+    [Tooltip("Number of object that has to be instantiated for each prefab")]
     private int quantityPerPrefab;
     [SerializeField]
-    // list that contains all the quad prefabs
+    [Tooltip("List that contains all the quad prefabs")]
     private List<GameObject> poolPrefabs = new List<GameObject>();
 
     /// <summary>
@@ -26,13 +26,13 @@ public class QuadManager : MonoBehaviour
 
     [Header("Scene Options")]
     [SerializeField]
-    // number of objects that has to be in scene
+    [Tooltip("Number of objects that has to be in scene")]
     private int quadInScene;
     [SerializeField]
-    // list with all the quads in scene
+    [Tooltip("List with all the quads in scene")]
     private List<BaseQuad> activeQuads = new List<BaseQuad>();
     [SerializeField]
-    // reference to the quad container
+    [Tooltip("Reference to the quad container")]
     private Transform quadContainer;
 
     /// <summary>
@@ -120,7 +120,7 @@ public class QuadManager : MonoBehaviour
     {
         scoreMng = _lvlMng.GetScoreMng();
 
-        GeneratePool();
+        GeneratePool(_lvlMng.GetBoundMng().GetCameraBound());
 
         PopulateScene();
 
@@ -132,14 +132,8 @@ public class QuadManager : MonoBehaviour
     /// <summary>
     /// Generate all objects that has to be placed in the pool
     /// </summary>
-    private void GeneratePool()
+    private void GeneratePool(Rect _cameraBound)
     {
-        // get the camera rect
-        var BottomLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
-        var TopRight = Camera.main.ScreenToWorldPoint(new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight));
-
-        Rect _cameraBound = new Rect(BottomLeft.x, BottomLeft.y, TopRight.x - BottomLeft.x, TopRight.y - BottomLeft.y);
-
         // instantiate objects
         foreach (GameObject _current in poolPrefabs)
         {

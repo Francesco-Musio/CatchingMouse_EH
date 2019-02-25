@@ -3,9 +3,15 @@ using System.Collections;
 
 public class YellowQuad : BaseQuad
 {
+    bool stillInContact = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        direction = Random.onUnitSphere;
+        stillInContact = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        stillInContact = false;
     }
 
     #region API
@@ -31,6 +37,12 @@ public class YellowQuad : BaseQuad
             transform.Translate(direction * movementSpd * Time.deltaTime);
             if (!(cameraRect.Contains(transform.position)))
                 OutOfBounds(this);
+
+            if (stillInContact)
+            {
+                direction = Random.onUnitSphere;
+            }
+
             yield return null;
         }
     }

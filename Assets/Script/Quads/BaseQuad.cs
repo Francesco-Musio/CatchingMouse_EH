@@ -5,6 +5,10 @@ public abstract class BaseQuad : MonoBehaviour
 {
     #region Delegates
     public delegate void OutOfBoundsEvent(BaseQuad _base);
+
+    /// <summary>
+    /// Event called when this object goes out of bounds
+    /// </summary>
     public OutOfBoundsEvent OutOfBounds;
     #endregion
 

@@ -21,7 +21,7 @@ public class MouseManager : MonoBehaviour
 
     [Header("Hover Options")]
     [SerializeField]
-    // texture used by rect onscreen
+    [Tooltip("Texture used by rect onscreen")]
     private Texture texture;
 
     /// <summary>
@@ -109,7 +109,7 @@ public class MouseManager : MonoBehaviour
         startingPoint = Vector3.zero;
 
         isGameActive = false;
-        StartCoroutine(MouseCheck());
+        StartCoroutine(CMouseCheck());
 
         _lvlMng.OnGameStart += HandleOnGameStart;
         _lvlMng.OnGameEnd += HandleOnGameEnd;
@@ -117,7 +117,7 @@ public class MouseManager : MonoBehaviour
     #endregion
 
     #region Coroutines
-    private IEnumerator MouseCheck()
+    private IEnumerator CMouseCheck()
     {
         while (true)
         {

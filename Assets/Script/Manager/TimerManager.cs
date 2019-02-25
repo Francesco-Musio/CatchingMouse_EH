@@ -14,7 +14,7 @@ public class TimerManager : MonoBehaviour
 
     [Header("LevelOption")]
     [SerializeField]
-    // duration of the game
+    [Tooltip("Duration of the game")]
     private int gameTime = 30;
 
     /// <summary>

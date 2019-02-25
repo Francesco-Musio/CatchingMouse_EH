@@ -6,16 +6,16 @@ public class UIManager : MonoBehaviour
 {
     [Header("Canvas References")]
     [SerializeField]
-    // Reference to the gameCanvas
+    [Tooltip("Reference to the gameCanvas")]
     private GameCanvas gameCanvas;
     [SerializeField]
-    // Reference to the menuCanvas
+    [Tooltip("Reference to the menuCanvas")]
     private MenuCanvas menuCanvas;
     [SerializeField]
-    // Reference to the finishCanvas
+    [Tooltip("Reference to the finishCanvas")]
     private FinishCanvas finishCanvas;
     [SerializeField]
-    // Reference to the leaderboardCanvas
+    [Tooltip("Reference to the leaderboardCanvas")]
     private LeaderboardCanvas leaderboardCanvas;
 
     #region API

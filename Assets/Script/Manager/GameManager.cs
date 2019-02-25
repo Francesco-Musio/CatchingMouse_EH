@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField]
-    // Reference to the Level Manager
+    [Tooltip("Reference to the Level Manager")]
     private LevelManager levelMng;
 
     /// <summary>

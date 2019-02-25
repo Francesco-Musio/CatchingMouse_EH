@@ -26,10 +26,10 @@ public class ScoreManager : MonoBehaviour
 
     [Header("Score Manager Options")]
     [SerializeField]
-    // score of the current game
+    [Tooltip("Score of the current game")]
     private int score;
     [SerializeField]
-    // quad selected during the current game
+    [Tooltip("Quad selected during the current game")]
     private int quads;
 
     /// <summary>
