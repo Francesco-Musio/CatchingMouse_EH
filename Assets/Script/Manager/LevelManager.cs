@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     public Action OnMenuEnter;
     public Action OnGameStart;
     public Action OnGameEnd;
+    public Action OnLeaderboard;
     #endregion
 
     private MouseManager mouseMng;
@@ -19,6 +20,7 @@ public class LevelManager : MonoBehaviour
     private ScoreManager scoreMng;
     private UIManager uiMng;
     private TimerManager timerMng;
+    private LeaderboardManager leaderboardMng;
 
     #region Start
     public void Init()
@@ -26,6 +28,10 @@ public class LevelManager : MonoBehaviour
         mouseMng = GetComponent<MouseManager>();
         if (mouseMng != null)
             mouseMng.Init(this);
+
+        leaderboardMng = GetComponent<LeaderboardManager>();
+        if (leaderboardMng != null)
+            leaderboardMng.Init();
 
         scoreMng = GetComponent<ScoreManager>();
         if (scoreMng != null)
@@ -59,6 +65,11 @@ public class LevelManager : MonoBehaviour
     public TimerManager GetTimerMng()
     {
         return timerMng;
+    }
+
+    public LeaderboardManager GetLeaderboardMng()
+    {
+        return leaderboardMng;
     }
     #endregion
 }

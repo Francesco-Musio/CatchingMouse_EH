@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
             case GameState.Finish:
                 levelMng.OnGameEnd();
                 break;
+            case GameState.Leaderboard:
+                levelMng.OnLeaderboard();
+                break;
             default:
                 break;
         }
@@ -55,5 +58,6 @@ public enum GameState
     Init,
     MainMenu,
     Game,
-    Finish
+    Finish,
+    Leaderboard
 }

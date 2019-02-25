@@ -18,6 +18,7 @@ public class GameCanvas : MonoBehaviour
 
         _lvlMng.GetScoreMng().ScoreUpdate += HandleScoreUpdate;
         _lvlMng.GetTimerMng().TimeUpdate += HandleTimeUpdate;
+        _lvlMng.OnGameStart += HandleOnGameStart;
 
         this.gameObject.SetActive(false);
     }
@@ -32,6 +33,12 @@ public class GameCanvas : MonoBehaviour
     private void HandleTimeUpdate(float _timer)
     {
         timeText.text = "Tempo: " + (int)_timer;
+    }
+
+    private void HandleOnGameStart()
+    {
+        scoreText.text = "Punteggio: 0";
+        timeText.text = "Tempo: 30";
     }
     #endregion
 }

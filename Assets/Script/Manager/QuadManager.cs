@@ -163,7 +163,7 @@ public class QuadManager : MonoBehaviour
     private void HandleOutOfBounds(BaseQuad _base)
     {
         ReturnToPool(_base);
-        StartCoroutine(CPlaceElement());
+        StartCoroutine(CPlaceElement(_base.GetQuadType()));
     }
     
     private void HandleEndDrag(Rect _selectionArea)
@@ -211,7 +211,7 @@ public class QuadManager : MonoBehaviour
             {
                 score += _current.GetScore();
                 ReturnToPool(_current);
-                StartCoroutine(CPlaceElement());
+                StartCoroutine(CPlaceElement(_current.GetQuadType()));
             }
 
             scoreMng.Score(score, selected.Count);
@@ -220,7 +220,7 @@ public class QuadManager : MonoBehaviour
     #endregion
 
     #region Coroutines
-    private IEnumerator CPlaceElement()
+    private IEnumerator CPlaceElement(QuadType? _type)
     {
         BaseQuad _el = GetObjectFormPool(null);
 

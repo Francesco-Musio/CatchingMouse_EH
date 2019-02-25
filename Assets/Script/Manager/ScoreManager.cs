@@ -17,14 +17,19 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private int quads;
 
+    private LeaderboardManager leaderboardMng;
+
     private void Setup()
     {
         score = 0;
+        quads = 0;
     }
 
     #region API
     public void Init(LevelManager _lvlMng)
     {
+        leaderboardMng = _lvlMng.GetLeaderboardMng();
+
         _lvlMng.OnGameStart += HandleOnGameStart;
         Score += HandleScore;
     }
