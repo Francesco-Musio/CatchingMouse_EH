@@ -14,14 +14,26 @@ public abstract class BaseQuad : MonoBehaviour
 
     [Header("Quad Options")]
     [SerializeField]
+    [Tooltip("Type of this quad")]
     protected QuadType type;
     [SerializeField]
+    [Tooltip("movement Speed")]
     protected float movementSpd;
     [SerializeField]
+    [Tooltip("Individual score for selecting this quad")]
     protected int score;
 
+    /// <summary>
+    /// movement direction of this quad
+    /// </summary>
     protected Vector2 direction;
+    /// <summary>
+    /// Reference to this quad's collider
+    /// </summary>
     protected Collider2D coll;
+    /// <summary>
+    /// Rect of the active camera
+    /// </summary>
     protected Rect cameraRect;
 
     #region Abstract
