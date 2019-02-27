@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
 
         _lvlMng.OnMenuEnter += HandleOnMenuEnter;
         _lvlMng.OnGameStart += HandleOnGameStart;
-        _lvlMng.OnGameEnd += HandleOngameEnd;
+        _lvlMng.OnGameEnd += HandleOnGameEnd;
         _lvlMng.OnLeaderboard += HandleOnLeaderboard;
     }
     #endregion
@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// enable the finish game canvas
     /// </summary>
-    private void HandleOngameEnd()
+    private void HandleOnGameEnd()
     {
         gameCanvas.gameObject.SetActive(false);
         menuCanvas.gameObject.SetActive(false);

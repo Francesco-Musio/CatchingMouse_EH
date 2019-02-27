@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class BaseQuad : MonoBehaviour
+public abstract class BaseElement : MonoBehaviour
 {
     #region Delegates
-    public delegate void OutOfBoundsEvent(BaseQuad _base);
+    public delegate void OutOfBoundsEvent(BaseElement _base);
 
     /// <summary>
     /// Event called when this object goes out of bounds
@@ -15,7 +15,7 @@ public abstract class BaseQuad : MonoBehaviour
     [Header("Quad Options")]
     [SerializeField]
     [Tooltip("Type of this quad")]
-    protected QuadType type;
+    protected ElementType type;
     [SerializeField]
     [Tooltip("movement Speed")]
     protected float movementSpd;
@@ -42,7 +42,7 @@ public abstract class BaseQuad : MonoBehaviour
     #endregion
 
     #region Getters
-    public QuadType GetQuadType()
+    public ElementType GetElementType()
     {
         return type;
     }
@@ -59,9 +59,9 @@ public abstract class BaseQuad : MonoBehaviour
     #endregion
 }
 
-public enum QuadType
+public enum ElementType
 {
-    Red,
-    Yellow,
-    Blue
+    RedQuad,
+    YellowQuad,
+    BlueQuad
 }

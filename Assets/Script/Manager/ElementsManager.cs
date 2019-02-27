@@ -9,7 +9,7 @@ using System.Collections;
  * It contains a pool from which the quads are taken
  */
 
-public class QuadManager : MonoBehaviour
+public class ElementsManager : MonoBehaviour
 {
     [Header("Pool Options")]
     [SerializeField]
@@ -22,7 +22,7 @@ public class QuadManager : MonoBehaviour
     /// <summary>
     /// Object Pool
     /// </summary>
-    private List<BaseQuad> pool = new List<BaseQuad>();
+    private List<BaseElement> pool = new List<BaseElement>();
 
     [Header("Scene Options")]
     [SerializeField]
@@ -30,7 +30,7 @@ public class QuadManager : MonoBehaviour
     private int quadInScene;
     [SerializeField]
     [Tooltip("List with all the quads in scene")]
-    private List<BaseQuad> activeQuads = new List<BaseQuad>();
+    private List<BaseElement> activeQuads = new List<BaseElement>();
     [SerializeField]
     [Tooltip("Reference to the quad container")]
     private Transform quadContainer;
@@ -50,7 +50,7 @@ public class QuadManager : MonoBehaviour
         {
             for (int i = 0; i < quadInScene / 3; i++)
             {
-                BaseQuad _el = GetObjectFormPool(_current.GetComponent<BaseQuad>().GetQuadType());
+                BaseElement _el = GetObjectFormPool(_current.GetComponent<BaseElement>().GetElementType());
 
                 if (!placeEl(_el))
                 {
@@ -86,7 +86,7 @@ public class QuadManager : MonoBehaviour
     /// </summary>
     /// <param name="_el">element to place</param>
     /// <returns>true if the quad has been successfully placed</returns>
-    private bool placeEl(BaseQuad _el)
+    private bool placeEl(BaseElement _el)
     {
         // get a random position
         float screenX = Random.Range(5f, Camera.main.pixelWidth - 5f);
@@ -94,7 +94,7 @@ public class QuadManager : MonoBehaviour
         Vector3 point = Camera.main.ScreenToWorldPoint(new Vector3(screenX, screenY, 10));
 
         // check if there are intersection with existing quads
-        foreach (BaseQuad _temp in activeQuads)
+        foreach (BaseElement _temp in activeQuads)
         {
             Bounds _b = _temp.GetCollider().bounds;
             _b.Expand(1f);
@@ -142,7 +142,7 @@ public class QuadManager : MonoBehaviour
                 GameObject _new = Instantiate(_current, quadContainer, true);
                 _new.SetActive(false);
                 _new.transform.position = new Vector3(1000, 1000, 1000);
-                BaseQuad _newQuad = _new.GetComponent<BaseQuad>();
+                BaseElement _newQuad = _new.GetComponent<BaseElement>();
                 _newQuad.Init(_cameraBound);
                 pool.Add(_newQuad);
 
@@ -157,15 +157,15 @@ public class QuadManager : MonoBehaviour
     /// </summary>
     /// <param name="_type"></param>
     /// <returns></returns>
-    private BaseQuad GetObjectFormPool(QuadType? _type)
+    private BaseElement GetObjectFormPool(ElementType? _type)
     {
-        foreach (BaseQuad _current in pool)
+        foreach (BaseElement _current in pool)
         {
             if (!_current.gameObject.activeInHierarchy)
             {
                 if (_type != null)
                 {
-                    if (_current.GetQuadType() == _type)
+                    if (_current.GetElementType() == _type)
                     {
                         _current.gameObject.SetActive(true);
                         return _current;
@@ -186,7 +186,7 @@ public class QuadManager : MonoBehaviour
     /// Return an objects to the pool
     /// </summary>
     /// <param name="_quad"></param>
-    private void ReturnToPool(BaseQuad _quad)
+    private void ReturnToPool(BaseElement _quad)
     {
         if (activeQuads.Contains(_quad))
         {
@@ -202,10 +202,10 @@ public class QuadManager : MonoBehaviour
     /// If an element fall out of bounds a new element will be spawned
     /// </summary>
     /// <param name="_base"></param>
-    private void HandleOutOfBounds(BaseQuad _base)
+    private void HandleOutOfBounds(BaseElement _base)
     {
         ReturnToPool(_base);
-        StartCoroutine(CPlaceElement(_base.GetQuadType()));
+        StartCoroutine(CPlaceElement(_base.GetElementType()));
     }
     
     /// <summary>
@@ -226,24 +226,24 @@ public class QuadManager : MonoBehaviour
         // signal if the selection is valid
         bool isValid = true;
         // target color for the selection
-        QuadType _target = QuadType.Red;
+        ElementType _target = ElementType.RedQuad;
         // list that contains the quads in the selection
-        List<BaseQuad> selected = new List<BaseQuad>();
+        List<BaseElement> selected = new List<BaseElement>();
         // score obtaained with the selection if valid
         int score = 0;
         
         // identify wich quads are in the selection
-        foreach (BaseQuad _current in activeQuads)
+        foreach (BaseElement _current in activeQuads)
         {
             if (isValid && _selectionArea.Contains(_current.transform.position, true))
             {
                 // set the target quad type
                 if (selected.Count == 0)
                 {
-                    _target = _current.GetQuadType();
+                    _target = _current.GetElementType();
                     selected.Add(_current);
                 }
-                else if (_current.GetQuadType() == _target)
+                else if (_current.GetElementType() == _target)
                 {
                     selected.Add(_current);
                 }
@@ -262,11 +262,11 @@ public class QuadManager : MonoBehaviour
         if (isValid)
         {
             // count the score and reposition the selected quads
-            foreach (BaseQuad _current in selected)
+            foreach (BaseElement _current in selected)
             {
                 score += _current.GetScore();
                 ReturnToPool(_current);
-                StartCoroutine(CPlaceElement(_current.GetQuadType()));
+                StartCoroutine(CPlaceElement(_current.GetElementType()));
             }
 
             // obtain the score
@@ -281,9 +281,9 @@ public class QuadManager : MonoBehaviour
     /// </summary>
     /// <param name="_type"></param>
     /// <returns></returns>
-    private IEnumerator CPlaceElement(QuadType? _type)
+    private IEnumerator CPlaceElement(ElementType? _type)
     {
-        BaseQuad _el = GetObjectFormPool(_type);
+        BaseElement _el = GetObjectFormPool(_type);
 
         while (!placeEl(_el))
         {

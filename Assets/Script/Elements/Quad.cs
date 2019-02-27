@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RedQuad : BaseQuad
+public class Quad : BaseElement
 {
     /// <summary>
     /// Signal collision is in act
     /// </summary>
-    bool stillInContact = false;
+    private bool stillInContact = false;
 
     /// <summary>
     /// Signal collision has begun
@@ -68,16 +68,6 @@ public class RedQuad : BaseQuad
 
             yield return null;
         }
-    }
-    #endregion
-
-    #region Test
-    /// <summary>
-    /// Test for the OutOfBoundEvent
-    /// </summary>
-    public void OOBTest()
-    {
-        OutOfBounds(this);
     }
     #endregion
 }

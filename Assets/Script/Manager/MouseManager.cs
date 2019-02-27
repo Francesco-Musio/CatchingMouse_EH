@@ -47,12 +47,12 @@ public class MouseManager : MonoBehaviour
     /// <summary>
     /// Rect with selection area in screen space
     /// </summary>
-    Rect _selection = Rect.zero;
+    private Rect _selection = Rect.zero;
 
     /// <summary>
     /// Rect with selection area in world space
     /// </summary>
-    Rect _worldSelection = Rect.zero;
+    private Rect _worldSelection = Rect.zero;
 
     /// <summary>
     /// Reload the two rects with the current positions

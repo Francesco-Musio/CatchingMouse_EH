@@ -9,7 +9,7 @@ using System.Collections;
  */
 
 [RequireComponent(typeof(MouseManager))]
-[RequireComponent(typeof(QuadManager))]
+[RequireComponent(typeof(ElementsManager))]
 [RequireComponent(typeof(ScoreManager))]
 [RequireComponent(typeof(UIManager))]
 [RequireComponent(typeof(TimerManager))]
@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     /// <summary>
     /// reference to the QuadManager
     /// </summary>
-    private QuadManager quadMng;
+    private ElementsManager elementsMng;
     /// <summary>
     /// reference to the ScoreManager
     /// </summary>
@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private BoundManager boundMng;
 
-    #region Start
+    #region API
     /// <summary>
     /// initialize all the managers
     /// </summary>
@@ -87,9 +87,9 @@ public class LevelManager : MonoBehaviour
         if (scoreMng != null)
             scoreMng.Init(this);
 
-        quadMng = GetComponent<QuadManager>();
-        if (quadMng != null)
-            quadMng.Init(this);
+        elementsMng = GetComponent<ElementsManager>();
+        if (elementsMng != null)
+            elementsMng.Init(this);
 
         timerMng = GetComponent<TimerManager>();
         if (timerMng != null)
